@@ -1,14 +1,11 @@
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel
 
+from app.models import Item
 from app.services.parse_threads import parse_threads
 
 router = APIRouter(prefix="/reports")
 
 
-class Item(BaseModel):
-    name: str
-    description: str | None = None
 
 
 @router.get("/")
