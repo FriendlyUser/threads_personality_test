@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
-
-from app.models import UserIdentity
-from app.services.parse_threads import get_id_from_username
+from threads import Threads
+from app.models import UserIdentity, UserDataResponse, UserThreadResponse, UserThreadResponse
+from app.services.parse_threads import get_id_from_username, fetch_user_info, fetch_user_threads
 
 router = APIRouter(prefix="/threads")
-
+threads = Threads()
 @router.get("/username/{username}")
 async def get_user(username: str) -> UserIdentity:
     """
@@ -20,23 +20,12 @@ async def get_user(username: str) -> UserIdentity:
     user = UserIdentity(id=user_id, username=username)
     return user
 
-@router.get("/userid/{user_id}")
-def get_user_data(user_id: int) -> Response:
-  
-  response = threads.public_api.get_user(id=user_id)
-  
-  user_dict = response["data"]["userData"]["user"]
-  
-  profile_pics = [ProfilePic(**pic) for pic in user_dict["hd_profile_pic_versions"]]
-  
-  user = User(
-    hd_profile_pic_versions=profile_pics,
-    **user_dict
-  )
-  
-  data = UserData(user=user)
+@router.get("/userid/{userid}")
+def get_user_info(userid: int) -> UserDataResponse:
+    user = fetch_user_info(userid)
+    return user
 
-  return Response(
-    data=data,
-    extensions=response["extensions"]
-  )
+@router.get("/user_threads/{userid}")
+def get_user_threads(userid: int) -> UserDataResponse:
+    user_threads = fetch_user_threads(userid)
+    return user_threads

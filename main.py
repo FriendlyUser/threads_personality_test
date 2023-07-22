@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routers import reports
+from app.routers import reports, user_threads
 # from app.middleware import custom_middleware
 # from app.exceptions import http_error_handler
 
@@ -19,6 +19,7 @@ async def shutdown():
 
 # Register routers
 app.include_router(reports.router)
+app.include_router(user_threads.router)
 # app.include_router(users.router)
 
 # Register exception handlers 
