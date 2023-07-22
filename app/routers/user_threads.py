@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from threads import Threads
-from app.models import UserIdentity, UserDataResponse, UserThreadResponse, UserThreadResponse
+from app.models import UserIdentity, UserDataResponse # , UserThreadResponse, UserThreadResponse
 from app.services.parse_threads import get_id_from_username, fetch_user_info, fetch_user_threads
 
 router = APIRouter(prefix="/threads")
@@ -26,6 +26,6 @@ def get_user_info(userid: int) -> UserDataResponse:
     return user
 
 @router.get("/user_threads/{userid}")
-def get_user_threads(userid: int) -> UserDataResponse:
+def get_user_threads(userid: int) -> dict:
     user_threads = fetch_user_threads(userid)
     return user_threads

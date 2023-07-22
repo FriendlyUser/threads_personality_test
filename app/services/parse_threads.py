@@ -1,13 +1,13 @@
 from threads import Threads
 from app.models import (
     UserDataResponse,
-    UserThreadResponse,
-    InstagramUser,
-    ThreadsUser,  
-    ThreadsUserData,
-    ThreadsData,
-    ThreadsResponse,
-    UserThreadResponse
+    # UserThreadResponse,
+    # InstagramUser,
+    # ThreadsUser,  
+    # ThreadsUserData,
+    # ThreadsData,
+    # ThreadsResponse,
+    # UserThreadResponse
 )
 
 # if we add auth, move threads function elsewhere
@@ -54,7 +54,7 @@ def fetch_user_info(user_id: int) -> UserDataResponse:
     extensions=response["extensions"]
   )
 
-def fetch_user_threads(user_id: int)-> UserThreadResponse:
+def fetch_user_threads(user_id: int)-> dict:
     response = threads.public_api.get_user_threads(id=user_id)
     print(response)
     # if response.get("instagram"):
@@ -62,18 +62,18 @@ def fetch_user_threads(user_id: int)-> UserThreadResponse:
     # else:
     # instagram = InstagramUser()
     
-    threads_user = ThreadsUser(**response["threads"]["data"]["userData"]["user"])
+    # threads_user = ThreadsUser(**response["threads"]["data"]["userData"]["user"])
     
-    threads_user_data = ThreadsUserData(user=threads_user)
+    # threads_user_data = ThreadsUserData(user=threads_user)
 
-    threads_data = ThreadsData(userData=threads_user_data)
+    # threads_data = ThreadsData(userData=threads_user_data)
 
-    threads_resp = ThreadsResponse(
-         data=threads_data,
-         extensions=response["threads"]["extensions"]
-    )
-
-    return UserThreadResponse(
-        # instagram=instagram,  
-        threads=threads_resp
-    )
+    # threads_resp = ThreadsResponse(
+    #      data=threads_data,
+    #      extensions=response["threads"]["extensions"]
+    # )
+    return response
+    # return UserThreadResponse(
+    #     # instagram=instagram,  
+    #     threads=threads_resp
+    # )
